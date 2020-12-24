@@ -1,24 +1,62 @@
 <?php
-    $time = date("H");
-    if(($time >= 8) || ($time < 20))
+//1. Создать массив размера n, заполненный случайными числами. Вывести
+//каждый элемент массива с новой строки. Все четные элементы массива
+//необходимо вывести жирным шрифтом.
+$arr1 = array();
+$n = 10;
+for ($i = 0; $i < $n; $i++)
+{
+    $arr1[] = mt_rand(0, 100);
+    if ($arr1[$i] % 2 == 0)
     {
-        $img = '<img src="images/sun.jpg">';
+        echo '<strong>' . $arr1[$i] . '</strong><br>';
     }
-    elseif (($time >= 20) || ($time < 8))
+    else
     {
-        echo '<img src="images/moon.png">';
+        echo $arr1[$i] . '<br>';
     }
-    ?>
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>День и ночь</title>
-</head>
-<body>
-<h1><?php echo $img; ?></h1>
-</body>
-</html>
+}
+echo '<hr>';
+//2. Создать двумерный массив произвольной длины, содержащий строковые
+//значения. Необходимо вывести все элементы массива, начинающиеся на А.
+$arr2 = array(
+        'Фрукты' => array('Ананас', 'Мандарин', 'Абрикос'),
+        'Рыба' => array('Щука', 'Судак'),
+        'Овощи' => array('Морковь', 'Авокадо', 'Капуста')
+);
+$needle = "А";
+foreach ($arr2 as $item)
+{
+    foreach ($item as $value)
+    {
+        $flag = strpos($value, $needle);
+        if ($flag !== false)
+        {
+            echo $value . '<br>';
+        }
+    }
+}
+
+
+echo '<hr>';
+//3. Создать двумерный массив, состоящий из чисел. Необходимо
+//вывести общее количество элементов массива и количество
+//элементов массива для каждого измерения.
+$arr3 = array(
+    1 => array(11, 12, 13),
+    12 => array(120, 121),
+    123 => array(1230, 1231, 1232, 1234)
+);
+$count_all = 0;
+$count_row = 0;
+foreach ($arr3 as $key => $item)
+{
+    foreach ($item as $value)
+    {
+        $count_row += 1;
+    }
+    print "$count_row элементов в $key строке"  . '<br>';
+    $count_all += $count_row;
+    $count_row = 0;
+}
+print "$count_all элементов всего"  . '<br>';
