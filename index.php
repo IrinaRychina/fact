@@ -1,17 +1,4 @@
 <?php
-//5. Дана строка. Проверьте,
-// что она заканчивается на '.png'. Если это так, выведите 'да', если не так - 'нет'.
-$str5 = "hello.pngm.png";
-$png = ".png";
-$flag = mb_strpos ( $str5, $png , -4);
-if ($flag)
-{
-    echo 'да';
-}
-else{
-    echo 'нет';
-}
-echo '<hr>';
 
 //1. Дана строка. Если в этой строке более 5-ти символов - вырежете из нее первые 5 символов,
 //добавьте троеточие в конец и выведите на экран.
@@ -19,50 +6,60 @@ echo '<hr>';
 
 $str11 = "dialog!";
 $str12 = "mir";
-if (mb_strlen($str11) > 5)
+function five_symbols($str)
 {
-    echo mb_substr($str11, 0, 5) . '...';
+    if (mb_strlen($str) > 5)
+    {
+        echo mb_substr($str, 0, 5) . '...';
+    }
+    else {
+        echo $str;
+    }
 }
-else {
-    echo $str11;
-}
+five_symbols($str11);
 echo '<br>';
-if (mb_strlen($str12) > 5)
-{
-    echo mb_substr($str12, 0, 5) . '...';
-}
-else {
-    echo $str12;
-}
-
+five_symbols($str12);
 
 echo '<hr>';
 //2. Дана строка $str. Замените в ней все буквы 'a' на цифру 1,
 // буквы 'b' - на 2, а буквы 'c' - на 3.
 $str2 = "analog bubble class";
-echo str_replace(array('a', 'b', 'c'), array(1, 2, 3), $str2);
-
-
+function replace_symbols($str)
+{
+    echo str_replace(array('a', 'b', 'c'), array(1, 2, 3), $str);
+}
+replace_symbols($str2);
 echo '<hr>';
+
 //3. Дана строка 'abc abc abc'. Определите позицию последней буквы 'b'.
 $str3 = 'abc abc abc';
-$position = strpos($str3, 'b', -4);
+function find_position($str)
+{
+    return strpos($str, 'b', -4);
+}
+$position = find_position($str3);
 echo $position;
 
 echo '<hr>';
 //4.Дана строка 'html css php'.
 // С помощью функции explode запишите каждое слово этой строки в отдельный элемент массива.
 $str4 = 'html css php';
-$arr4 = explode(' ', $str4);
+function explode_example($str)
+{
+    return explode(' ', $str);
+}
+$arr4 = explode_example($str4);
 print_r($arr4);
 
 echo '<hr>';
 //5. В двух строках содержатся даты вида
 // День-Месяц-Год (например, 10-02-2015).
 // Определите количество дней между датами.
-$str51 = '10-02-2015';
-$str52 = '10-02-2016';
 $str51 = new DateTime('10-02-2015');
 $str52 = new DateTime('10-02-2016');
-$interval = $str51->diff($str52);
+function find_difference($str1, $str2)
+{
+    return $str1->diff($str2);
+}
+$interval = find_difference($str51, $str52);
 echo $interval->format('%R%a дней');
