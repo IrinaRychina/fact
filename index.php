@@ -1,72 +1,41 @@
 <?php
-//1. Создайте функцию, которая принимает одномерный массив и
-// возвращает массив, заполненный случайными числами.
-
-function rand_array(&$input_array)
-{
-    foreach ($input_array as &$value)
-    {
-        $value = rand(0, 100);
-    }
-    return $input_array;
-}
-$example_array1 = [0, 2, 4, 6, 8, 10];
-print_r(rand_array($example_array1));
+//3. Создайте форму генерации ссылки с параметром:
+//Создайте форму и в ней добавьте поле со списком выбора – Лаб1, Лаб2, Лаб3, Лаб4
+//При нажатии на кнопку должно быть сформирована ссылка следующего вида:
+// phpcourse.php?l=3 , где 3 – это номер выбранной лабораторной работы.
 
 
-echo '<hr>';
-//2. Дана строка «HTML, CSS, PHP, BITRIX».
-// Написать функцию, которая посчитает количество слов строке.
+$select = htmlspecialchars ($_POST["lab"]);
+print_r($_POST);
+?>
+<form method="post">
+    <p>
+        <select name="lab">
+            <option value="1">Лаб 1</option>
+            <option value="2">Лаб 2</option>
+            <option value="3">Лаб 3</option>
+        </select>
+        <input type="submit">
+    </p>
+</form>
+<?echo "phpcourse.php?l=" . $_POST["lab"]?>
 
-$str2 = "HTML, CSS, PHP, BITRIX";
-function get_words_number($input_string)
-{
-    return count(explode(' ', $input_string));
-}
-echo get_words_number($str2);
+<?php
+//1. Отправить логины и комментарии на почту
+// (значения должны сохраняться вместо тестового документа на электронный адрес).
+//*Так как мы отправляем e-mail на локальном сервере, то письма будут
+// сохраняться в папку C:\OpenServer\userdata\temp\email
+?>
 
+<?php
+//2. Создайте форму авторизации. Зашифруйте пароли и отправьте их на сервер.
+?>
 
-
-echo '<hr>';
-//3. Дана строка «HTML, CSS, PHP, BITRIX».
-//Написать функцию, которая выведет в обратном порядке буквы («XIRTIB ,PHP … »).
-
-$str3 = "HTML, CSS, PHP, BITRIX";
-function print_reverse_string($input_string)
-{
-    $input_string = str_split($input_string);
-    $input_string = array_reverse($input_string);
-    $input_string = implode("", $input_string);
-    echo $input_string;
-}
-print_reverse_string($str3);
-
-
-echo '<hr>';
-//4. Дана строка «HTML, CSS, PHP, BITRIX».
-// Написать функцию, которая выведет на экран длину строки.
-
-$str4 = "HTML, CSS, PHP, BITRIX";
-function get_symbols_number($input_string)
-{
-    $input_string_to_array = str_split($input_string);
-    return count($input_string_to_array);
-}
-echo get_symbols_number($str4);
-
-
-echo '<hr>';
-
-//5. Дана строка «HTML, CSS, PHP, BITRIX».
-// Написать функцию, которая выведет каждую букву на новую строку
-$str5 = "HTML, CSS, PHP, BITRIX";
-function vertical_string($input_string)
-{
-    $input_string_to_array = str_split($input_string);
-    foreach ($input_string_to_array as $value)
-    {
-        echo $value . '<br>';
-    }
-
-}
-vertical_string($str5);
+<?php
+//3. Создайте анкету на форме. Ответ на каждый из вопросов представьте с помощью переключателя («да» или «нет»). По умолчанию задайте везде значение «да».
+//Напишите сценарий обработки анкеты: поставьте 1 балл, если был ответ «да» в вопросах с номерами 3, 9, 10, 13, 14, 19 и «нет» в вопросах с номерами 1, 2, 4, 5, 6, 7, 8, 11, 12, 15, 16, 17, 18. Посчитайте сумму набранных баллов:
+//если она оказалась более 15, то результат: «У Вас покладистый характер»;
+//если сумма в интервале от 8 до 15, то результат: «Вы не лишены недостатков, но с вами можно ладить»;
+//если сумма менее 8 баллов, то результат: «Вашим друзьям можно посочувствовать».
+//Отобразите на экране имя анкетируемого, фразу-результат анкетирования.
+?>
