@@ -1,0 +1,2 @@
+AddDefaultCharset UTF-8
+ErrorDocument 404 /C:/OpenServer/domains/fact/err404.html
