@@ -2,30 +2,74 @@
 $hostname = 'localhost';
 $username = 'Irina';
 $password = '1234';
-$dbname = 'People';
+$dbname = 'city';
 
+//1. Выполнить запросы на удаление строки из таблицы Name
 $dbconnect = mysqli_connect($hostname, $username, $password, $dbname);
-$sql = mysqli_query($dbconnect, "CREATE DATABASE $dbname");
-$create_hobbies = mysqli_query($dbconnect, "CREATE TABLE Hobbies(
-    id_hobbies int (5) AUTO_INCREMENT PRIMARY KEY,
-    Name varchar (30) NOT NULL,
-    Desription varchar(30) NOT NULL)"
-);
-$create_people_hobbies = mysqli_query($dbconnect, "CREATE TABLE People_hobbies(
-    id_record int (5) AUTO_INCREMENT PRIMARY KEY,
-    id_people int (5),
-    id_hobbies int (5))"
-);
-$insert_people1 = mysqli_query($dbconnect, "INSERT INTO `people`(`id_person`, `Name`, `Surname`, `Age`) VALUES (1, 'Alex', 'Cole', 12)");
-$insert_people2 = mysqli_query($dbconnect, "INSERT INTO `people` VALUES (NULL, 'Nicole', 'Smith', 10)");
-$insert_people3 = mysqli_query($dbconnect, "INSERT INTO `people` VALUES (NULL, 'Bob', 'Smith', 14)");
-$insert_people4 = mysqli_query($dbconnect, "INSERT INTO `people` VALUES (NULL, 'Ellen', 'Jones', 16)");
-$delete_people1 = mysqli_query($dbconnect, "DELETE FROM `people` WHERE `id_person` = 3");
-$insert_hobbies1 = mysqli_query($dbconnect, "INSERT INTO `hobbies` VALUES (NULL, 'Sport', 'football or swimming')");
-$insert_hobbies2 = mysqli_query($dbconnect, "INSERT INTO `hobbies` VALUES (NULL, 'Computer games', 'Solitaire and Minesweeper')");
-$insert_hobbies3 = mysqli_query($dbconnect, "INSERT INTO `hobbies` VALUES (NULL, 'Reading', 'sci-fi and popular science')");
-$update_hobbies1 = mysqli_query($dbconnect, "UPDATE `hobbies` SET `Desription`='Solitaire, Minesweeper, Darkest Dungeon' WHERE `id_hobbies`=2");
-$join_sql = mysqli_query($dbconnect, "SELECT id_record, id_person, Surname, Age, Description FROM people_hobbies JOIN people ON people_hobbies.id_people = people.id_person");
+$sql1 = mysqli_query($dbconnect,"DELETE FROM `name` WHERE ID_person = 1");
 
-$alter_people_hobbies1 = mysqli_query($dbconnect, "ALTER TABLE `people_hobbies` ADD FOREIGN KEY (`id_hobbies`) REFERENCES `hobbies`(`id_hobbies`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
-$alter_people_hobbies2 = mysqli_query($dbconnect, "ALTER TABLE `people_hobbies` ADD FOREIGN KEY (`id_people`) REFERENCES `people`(`id_person`) ON DELETE RESTRICT ON UPDATE RESTRICT;");
+//2. Создать авторизацию пользователя. Необходимо создать новую БД,
+// в которой предусмотреть таблицу для хранения информации ο пользователе (имя, фамилия, возраст), логин и пароль.
+// Создать страницу index.php, на которой реализовать форму авторизации. Как только пользователей вводит логин и
+//пароль, происходит проверка логина и пароля из БД. Если пользователь ввел правильные данные, открывается страница
+//https://fact.digital/.  Если пользователь ввел неверные данные, на странице выходит ошибка авторизации.
+//При создании формы авторизации проработать дизайн и стиль страницы.
+$dbconnect2 = mysqli_connect($hostname, $username, $password);
+$db_selected = mysqli_select_db($dbconnect2, 'Users');
+
+//admin - пароль 1234
+//bob - пароль 5678
+//homer - пароль 9421
+
+if(isset($_POST['submit']))
+{
+    // функция mysqli_real_escape_string используется для создания допустимых в SQL строк, которые можно использовать в SQL выражениях.
+    $query = mysqli_query($dbconnect2,"SELECT user_login, user_password_hash FROM users WHERE user_login='".mysqli_real_escape_string($dbconnect2,$_POST['login'])."' LIMIT 1");
+    // mysqli_fetch_assoc - Извлекает результирующий ряд в виде ассоциативного массива
+    $data = mysqli_fetch_assoc($query);
+//    print_r($data);
+
+    // Сравниваем пароли
+    if($data['user_password_hash'] === md5($_POST['password']) and $data['user_login'] === $_POST['login'])
+    {
+        header("Location: https://fact.digital/");
+        exit();
+    }
+    else
+    {
+        echo "<script type='text/javascript'>alert('Вы ввели неправильный логин или пароль');</script>";
+    }
+}
+
+?>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="ribbon"></div>
+<div class="login">
+    <h1>Let's get started.</h1>
+    <p>This will be an amazing experience</p>
+    </form>
+
+    <form method="POST">
+        <div class="input">
+            <div class="blockinput">
+                <i class="icon-envelope-alt"></i><input name="login" type="text" placeholder="Login" required>
+            </div>
+            <div class="blockinput">
+                <i class="icon-unlock"></i><input name="password" type="password" placeholder="Password" required>
+            </div>
+        </div>
+        <button name="submit" type="submit" value="Log_in">Login</button>
+    </form>
+</div>
+</body>
+</html>
