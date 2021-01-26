@@ -1,4 +1,5 @@
 <?php
+require_once "authClass.php";
 $hostname = 'localhost';
 $username = 'Irina';
 $password = '1234';
@@ -20,26 +21,8 @@ $db_selected = mysqli_select_db($dbconnect2, 'Users');
 //admin - пароль 1234
 //bob - пароль 5678
 //homer - пароль 9421
-
-if(isset($_POST['submit']))
-{
-    // функция mysqli_real_escape_string используется для создания допустимых в SQL строк, которые можно использовать в SQL выражениях.
-    $query = mysqli_query($dbconnect2,"SELECT user_login, user_password_hash FROM users WHERE user_login='".mysqli_real_escape_string($dbconnect2,$_POST['login'])."' LIMIT 1");
-    // mysqli_fetch_assoc - Извлекает результирующий ряд в виде ассоциативного массива
-    $data = mysqli_fetch_assoc($query);
-//    print_r($data);
-
-    // Сравниваем пароли
-    if($data['user_password_hash'] === md5($_POST['password']) and $data['user_login'] === $_POST['login'])
-    {
-        header("Location: https://fact.digital/");
-        exit();
-    }
-    else
-    {
-        echo "<script type='text/javascript'>alert('Вы ввели неправильный логин или пароль');</script>";
-    }
-}
+$auth1 = new Auth();
+$auth1->auth_method($dbconnect2);
 
 ?>
 <!doctype html>
